@@ -1,0 +1,11 @@
+def queen(n,col=0,row=[],ans=[]):
+    if col==n:
+        ans.append(row)
+        return 
+    for i in range(n):
+        for j  in range (len(row)):
+            if  row[j]==i or abs(row[j]-i)==abs(j-col):
+                break
+        else:
+            queen(n,col+1,row+[i],ans)
+    return ans
