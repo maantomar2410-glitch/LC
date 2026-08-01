@@ -1,0 +1,40 @@
+class ListNode:
+      def __init__(self, val=0, next=None):
+          self.val = val  
+          self.next = next
+class Solution:
+    def reverseBetween(self, head, left, right):
+        dummy=ListNode(0)
+        dummy.next=head
+        t=head
+        prev=dummy
+        if(t.next==None):
+            return head
+        
+        l=head
+        lcount=1
+        rcount=1
+        r=head
+        while(rcount!=right):
+            if(lcount!=left):
+                l=l.next
+                r=r.next
+                prev=t
+                lcount+=1
+                rcount+=1
+            else:
+                r=r.next
+                rcount+=1
+            t=t.next
+        nxt=t.next
+        temp=None
+        q=l
+        while(q!=r):
+            forward=q.next
+            q.next=temp
+            temp=q
+            q=forward
+        q.next=temp
+        prev.next=r
+        l.next=nxt
+        return dummy.next
