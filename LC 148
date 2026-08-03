@@ -1,0 +1,48 @@
+ class ListNode:
+     def __init__(self, val=0, next=None):
+         self.val = val
+         self.next = next
+class Solution:
+    def merge(self, left, right):
+        dummy = ListNode(0)
+        tail = dummy
+        while(left != None and right != None):
+            if(left.val > right.val):
+                tail.next = right
+                right = right.next
+            else:
+                tail.next = left
+                left = left.next
+            tail = tail.next
+        if(left != None):
+            tail.next = left
+        else:
+            tail.next = right
+        return dummy.next
+
+    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if(head == None or head.next == None):
+            return head
+
+        again = head
+        left = head
+        count = 1
+        while(left.next != None):
+            left = left.next
+            count += 1
+
+        visit = 1
+        if(count % 2 == 0):
+            while(visit != count // 2):
+                again = again.next
+                visit += 1
+        else:
+            while(visit != (count // 2) + 1):
+                again = again.next
+                visit += 1
+        headr = again.next
+        again.next = None
+
+        leftsorted = self.sortList(head)
+        rightsorted = self.sortList(headr)
+        return self.merge(leftsorted, rightsorted)
