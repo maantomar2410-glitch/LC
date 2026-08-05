@@ -1,26 +1,20 @@
 def trap(arr):
-    stackdec=[]
-    stackinc=[]
-    start=len(arr)-1
+    leftmax=[]
+    rightmax=[]
+    for i in range(len(arr)):
+        if i==0:
+            leftmax.append(arr[i])
+        else:
+            leftmax.append(max(leftmax[i-1],arr[i]))
+    for i in range(len(arr)-1,-1,-1):
+        if i==len(arr)-1:
+            rightmax.append(arr[i])
+        else:
+            rightmax.append(max(rightmax[len(arr)-i-2],arr[i]))
+    rightmax=rightmax[::-1]
     ans=0
-    while(start>=0):
-        if len(stackdec)==0:
-            stackdec.append(arr[start])
-            start-=1
-        elif len(stackinc)>0 and stackinc[-1]>=stackdec[-1]:
-
-            high=max(stackinc)
-            for i in range(len(stackinc)):
-                ans+=high-stackinc[i]
-            stackinc.clear()
-            stackinc.append(high)
-            stackdec.clear()
-            start-=1
-        elif len(stackdec)>0 and arr[start]>stackdec[-1]:
-            stackdec.append(arr[start])
-            start-=1
-        elif len(stackdec)>0 and arr[start]<=stackdec[-1]:
-            stackinc.append(arr[start])
-            start-=1
-        print(ans)
+    for i in range(len(arr)):
+        check=min(leftmax[i],rightmax[i])
+        if check>arr[i]:
+            ans+=check-arr[i]
     return ans
